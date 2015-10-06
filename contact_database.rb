@@ -9,10 +9,9 @@ class ContactDatabase
   end
 
   def write_csv(arr, contact_list)
-    binding.pry
     count = 0
     contact_list.contacts.each do |contact|
-      if arr[2] == contact[2]
+      if arr[3] == contact[2]
         count += 1
       end 
     end
@@ -27,6 +26,7 @@ class ContactDatabase
     end
   end
 end 
+
 
 
 
