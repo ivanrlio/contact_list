@@ -8,16 +8,17 @@ class ContactDatabase
     @contacts = CSV.parse(File.read('contacts.csv'))
   end
 
-  def write_csv(name, age, email, contact_list)
+  def write_csv(arr, contact_list)
+    binding.pry
     count = 0
     contact_list.contacts.each do |contact|
-      if email == contact[2]
+      if arr[2] == contact[2]
         count += 1
       end 
     end
     if count == 0
       CSV.open('contacts.csv', 'a') do |line|
-        line << [name, age, email]
+        line << [arr[1], arr[2], arr[3]]
         p line
       end
     else

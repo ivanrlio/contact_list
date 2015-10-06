@@ -8,44 +8,42 @@ class ContactList
 
   def initialize
     @contact_list = ContactDatabase.new
-    
   end
- 
-  def initiate
-    puts "Please enter 'help' for more info."
-    user = gets.chomp
-    case user
-      when 'help' then puts "Here is a list of available commands:\n"\
-      "new - Create a new contact\nlist - List all contacts\nshow - Show a contact\n"\
-      "find - Find a contact\nPlease type a command."
-      command = gets.chomp
-      case command
-        when 'new' # works 
-          puts "What is your name?"
-          name = gets.chomp
-          puts "What is your age?"
-          age = gets.chomp
-          puts "What is your email?"
-          email = gets.chomp
 
-          check1 = @contact_list.write_csv(name, age, email, @contact_list)
-          if check1 == true
-            Contact.create(name, age, email, @contact_list) #adds 2 of each (for the values that return false, cody and john)
-          end       
-        when 'list' #works
-          Contact.all(@contact_list)
-        when 'show'
-          puts "What ID number would you like to see?"
-          id = gets.chomp.to_i
-          Contact.show(id, @contact_list)
-        when 'find'
-          puts "Enter a term to see if it relates to the name or email address of someone in the database."
-          term = gets.chomp
-          Contact.find(term, @contact_list)
-        else
-      end 
+  ARGV << 'help' if ARGV.empty?
+  binding.pry
+    if ARGV[0] == 'help'
+      puts "Here is a list of available commands:\n"
+      puts "To create a new contact, e.g. ruby app_run.rb new name age email"
+      puts "To list all contacts, e.g. ruby app_run.rb list\n"
+      puts "To show a contact, e.g. ruby app_run.rb show id#.\n"
+      puts "To find a contact, type in a substring of the individual you would like to find, e.g.\n"
+      puts "ruby app_run.rb gmail.com."
     end
-  end
+
+    if ARGV[0] == 'new'
+      binding.pry
+      check1 = @contact_list.write_csv(ARGV, @contact_list)
+      if check1 == true
+        Contact.create(ARGV[1], ARGV[2], ARGV[3], @contact_list) #adds 2 of each (for the values that return false, cody and john)
+      end
+    end       
+    
+    if ARGV[0] == 'list' #works
+      Contact.all(@contact_list)
+    end
+    
+    if ARGV[0] == 'show'
+      puts "What ID number would you like to see?"
+      id = gets.chomp.to_i
+      Contact.show(id, @contact_list)
+    end
+
+    if ARGV[0] == 'find'
+      puts "Enter a term to see if it relates to the name or email address of someone in the database."
+      term = gets.chomp
+      Contact.find(term, @contact_list)
+    end
 end
 
 
